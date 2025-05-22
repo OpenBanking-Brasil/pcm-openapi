@@ -810,7 +810,7 @@ paths:
               "Request Valido":
                 description: O request apresentado tem todos os campos validados.
                 value:
-                  date: "2021-11-11"
+                  timestamp: "2021-11-11T18:08:08.894Z"
                   orgId: "d78fc4e5-37ca-4da3-adf2-9b082bf92280"
                   role: CLIENT
                   scope: "DADOS"
@@ -933,7 +933,7 @@ components:
     URI:
       type: string
       format: uri
-      pattern:  ^[- /:_.',0-9a-zA-Z]{0,200}$
+      pattern: ^(https:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)$
       maxLength: 2000
       example: https://api.banco.com.br/open-banking/api/v1/resource
 
@@ -997,7 +997,7 @@ components:
           uriAuthorizationEndpoint:
             type: string
             format: uri
-            pattern: ^[- /:_.',0-9a-zA-Z]{0,200}$
+            pattern: ^(https:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/\/=]*)$
             maxLength: 2000
             example: https://api.banco.com.br/open-banking/api/v1/resource
           platform:
@@ -1375,18 +1375,20 @@ components:
                 - `RECURRENT`: Pix com agendamento e recorrência
                 - `SWEEPING`: Chamadas de pagamentos inteligentes
                 - `AUTOMATIC`: Pagamentos automáticos
+
+                <br>
               type: string
               enum:
                 - IMMEDIATE
                 - SCHEDULED
                 - RECURRENT​
                 - SWEEPING
-                - AUTOMATIC
               x-enum-descriptions:
                 - Pix sem configuração de agendamento​
                 - Pix com configuração de agendamento​
                 - Pix sem configuração de agendamento e configuração de recorrência​
                 - para todas as chamadas de pagamentos inteligentes​
+
             dropReason:
               description: |
                 1. O campo dropReason deve ser adicionado nas informações do campo additionalInfo que deverá ser enviado no reporte do provedor do serviço consumido (papel SERVER)
@@ -1499,22 +1501,11 @@ components:
                 | PATCH /open-banking/automatic-payments/v2/pix/recurring-payments/{recurringPaymentId}​ | Pix - Cancelar iniciação de pagamento​​                                                                                        | Será necessário o reporte porém temos que aguardar a <br> definição do nome do campo pelo GT Especificações Serviços​                      | -
             
                 <br>
-                Valores possiveis 
-
-                - `INICIADORA``: apenas para a role CLient
-                - `USUARIO``: para a role Server e Client
-                - `DETENTORA``: apenas para a role Server
-
-                <br>
               type: string
               enum:
-                - INICIADORA
-                - USUARIO
-                - DETENTORA
-              x-enum-descriptions:
-                - apenas para a role CLient
-                - para a role Server e Client
-                - apenas para a role Server​
+                - INICIADORA: apenas para a role CLient
+                - USUARIO: para a role Server e Client
+                - DETENTORA: apenas para a role Server
             RevokedFrom:
               description: |
                 Canal onde iniciou-se o processo de revogação
@@ -1549,19 +1540,10 @@ components:
                 | PATCH /open-banking/automatic-payments/v2/pix/recurring-payments/{recurringPaymentId}​ | Pix - Cancelar iniciação de pagamento​​                                                                                        | Será necessário o reporte porém temos que aguardar a <br> definição do nome do campo pelo GT Especificações Serviços​                      | -
             
                 <br>
-
-                Valores possíveis
-                - `INICIADORA`: para a role Server e Client
-                - `DETENTORA`: apenas para a role Server
-
-                <br>
               type: string
               enum:
-                - INICIADORA
-                - DETENTORA
-              x-enum-descriptions:
-                - para a role Server e Client
-                - apenas para a role Server
+                - INICIADORA: para a role Server e Client
+                - DETENTORA: apenas para a role Server
             RejectedBy:
               description: |
                 Quem iniciou a solicitação de rejeição
@@ -1596,24 +1578,11 @@ components:
                 | PATCH /open-banking/automatic-payments/v2/pix/recurring-payments/{recurringPaymentId}​ | Pix - Cancelar iniciação de pagamento​​                                                                                        | Será necessário o reporte porém temos que aguardar a <br> definição do nome do campo pelo GT Especificações Serviços​                      | -
             
                 <br>
-
-                Valores possíveis
-
-                - `INICIADORA`: apenas para a role Client
-                - `USUARIO`: para a role Server e Client
-                - `DETENTORA`: apenas para a role Server
-
-                <br>
               type: string
               enum:
-                - INICIADORA
-                - USUARIO
-                - DETENTORA
-              x-enum-descriptions:
-                - apenas para a role Client
-                - para a role Server e Client
-                - apenas para a role Server
-
+                - INICIADORA: apenas para a role Client
+                - USUARIO: para a role Server e Client
+                - DETENTORA: apenas para a role Server
             RejectedFrom:
               description: |
                 Canal onde iniciou-se o processo de rejeição
@@ -1647,19 +1616,10 @@ components:
                 | --------- | ----------------- | ----------------------- | ----------------------- |
                 | PATCH /open-banking/automatic-payments/v2/pix/recurring-payments/{recurringPaymentId}​ | Pix - Cancelar iniciação de pagamento​​                                                                                        | Será necessário o reporte porém temos que aguardar a <br> definição do nome do campo pelo GT Especificações Serviços​                      | -
                 <br>
-
-                Valores possíveis
-                - `INICIADORA`: para a role Server e Client
-                - `DETENTORA`: apenas para a role Server
-
-                <br>
               type: string
               enum:
-                - INICIADORA
-                - DETENTORA
-              x-enum-descriptions:
-                - para a role Server e Client
-                - apenas para a role Server
+                - INICIADORA: para a role Server e Client
+                - DETENTORA: apenas para a role Server
             grantType:
               description: |
                 O valor deste campo deve ser o valor enviado no campo grant_type da chamada ao endpoint de token
@@ -1698,10 +1658,10 @@ components:
             isFirstPayment:
               description: |
                 Valida se o serviço possui um pagamento associado na adesão.
-              type: string
+              type: boolean
               enum:
-                - "TRUE"
-                - "FALSE"
+                - TRUE
+                - FALSE
             hasMinimumAmount:
               description: |
                 Valida se possui o valor mínimo definido pelo usuário recebedor​.
@@ -2292,26 +2252,28 @@ components:
             
             <br>
             Identifica o modo de pagamento acionado no consentimento.
+
             Valores possíveis:
             - `IMMEDIATE`: Pix sem configuração de agendamento
             - `SCHEDULED`: Pix com configuração de agendamento
             - `RECURRENT`: Pix com agendamento e recorrência
             - `SWEEPING`: Chamadas de pagamentos inteligentes
             - `AUTOMATIC`: Pagamentos automáticos
+
             <br>
+
           type: string
           enum:
             - IMMEDIATE
-            - SCHEDULED
-            - RECURRENT​
+            - SCHEDULED​
+            - RECURRENT
             - SWEEPING
-            - AUTOMATIC
           x-enum-descriptions:
-            - Pix sem configuração de agendamento​
-            - Pix com configuração de agendamento​
-            - Pix sem configuração de agendamento e configuração de recorrência​
-            - para todas as chamadas de pagamentos inteligentes​
-            - Pagamentos automáticos
+            - Pix sem configuração de agendamento
+            - Pix com configuração de agendamento
+            - Pix com configuração de agendamento e recorrência
+            - Para todas as chamadas de pagamentos inteligentes
+          
         RevocationReasonCode:
           description: |
             Código indicador do motivo da revogação
@@ -2414,13 +2376,6 @@ components:
             | PATCH /open-banking/automatic-payments/v2/pix/recurring-payments/{recurringPaymentId}​ | Pix - Cancelar iniciação de pagamento​​                                                                                        | Será necessário o reporte porém temos que aguardar a <br> definição do nome do campo pelo GT Especificações Serviços​                      | -
             
             <br>
-            Valores possiveis 
-            
-            - `INICIADORA``: apenas para a role CLient
-            - `USUARIO``: para a role Server e Client
-            - `DETENTORA``: apenas para a role Server
-            
-            <br>
 
           type: string
           enum:
@@ -2460,20 +2415,11 @@ components:
             | PATCH /open-banking/automatic-payments/v2/pix/recurring-payments/{recurringPaymentId}​ | Pix - Cancelar iniciação de pagamento​​                                                                                        | Será necessário o reporte porém temos que aguardar a <br> definição do nome do campo pelo GT Especificações Serviços​                      | -
             
             <br>
-            
-            Valores possíveis
-            - `INICIADORA`: para a role Server e Client
-            - `DETENTORA`: apenas para a role Server
-
-            <br>
 
           type: string
           enum:
             - INICIADORA
             - DETENTORA
-          x-enum-descriptions:
-            - para a role Server e Client
-            - apenas para a role Server
         RejectedBy:
           description: |
             Quem iniciou a solicitação de rejeição
@@ -2507,22 +2453,12 @@ components:
             | PATCH /open-banking/automatic-payments/v2/pix/recurring-payments/{recurringPaymentId}​ | Pix - Cancelar iniciação de pagamento​​                                                                                        | Será necessário o reporte porém temos que aguardar a <br> definição do nome do campo pelo GT Especificações Serviços​                      | -
             
             <br>
-            Valores possíveis
-            - `INICIADORA`: apenas para a role CLient
-            - `USUARIO`: para a role Server e Client
-            - `DETENTORA`: apenas para a role Server
-            
-            <br>
 
           type: string
           enum:
             - INICIADORA
             - USUARIO
             - DETENTORA
-          x-enum-descriptions:
-            - apenas para a role CLient
-            - para a role Server e Client
-            - apenas para a role Server​
         RejectedFrom:
           description: |
             Canal onde iniciou-se o processo de rejeição
@@ -2556,19 +2492,10 @@ components:
             | PATCH /open-banking/automatic-payments/v2/pix/recurring-payments/{recurringPaymentId}​ | Pix - Cancelar iniciação de pagamento​​                                                                                        | Será necessário o reporte porém temos que aguardar a <br> definição do nome do campo pelo GT Especificações Serviços​                      | -
             <br>
 
-            Valores possíveis
-            - `INICIADORA`: apenas para a role CLient
-            - `DETENTORA`: apenas para a role Server
-            
-            <br>
-
           type: string
           enum:
             - INICIADORA
             - DETENTORA
-          x-enum-descriptions:
-            - apenas para a role CLient
-            - apenas para a role Server
         amountType:
           description: |
             Valida se o serviço contratado possui maior conversão em relação ao tipo do valor definido, sendo ele fixo ou variável​.
@@ -2586,10 +2513,10 @@ components:
         isFirstPayment:
           description: |
             Valida se o serviço possui um pagamento associado na adesão.
-          type: string
+          type: boolean
           enum:
-            - "TRUE"
-            - "FALSE"
+            - TRUE
+            - FALSE
         hasMinimumAmount:
           description: |
             Valida se possui o valor mínimo definido pelo usuário recebedor​.
@@ -2678,10 +2605,10 @@ components:
         isFirstPayment:
           description: |
             Valida se o serviço possui um pagamento associado na adesão.
-          type: string
+          type: boolean
           enum:
-            - "TRUE"
-            - "FALSE"
+            - TRUE
+            - FALSE
         hasMinimumAmount:
           description: |
             Valida se possui o valor mínimo definido pelo usuário recebedor​.
@@ -2743,23 +2670,22 @@ components:
       description: ""
       type: object
       required:
-        - "date"
+        - "timestamp"
         - "orgId"          
         - "role"
         - "scope"
         - "totalAmountOfUniqueClients"
         - "clientOrgId"
         - "serverOrgId"
-        - "consentsStockList"
       properties:
-        date:
-          description: Data UTC no formato ISO8601 (YYYY-MM-DD) do momento em que a chamada foi disparada, imediatamente antes do primeiro byte enviado na requisição. Deve conter a data a que se referem os dados de consentimento enviados na mensagem.
+        timestamp:
+          description: Data/Hora UTC no formato ISO8601 com milissegundos (YYYY-MM-DDTHH:mm:ss.sssZ) do momento em que a chamada foi disparada, imediatamente antes do primeiro byte enviado na requisição. Deve conter a data a que se referem os dados de consentimento enviados na mensagem.
           type: string
-          format: date
-          maxLength: 10
-          example: "2021-11-11"
+          format: date-time
+          maxLength: 28
+          example: "2021-11-11T18:08:08.278Z"
         orgId: 
-          description: Organização de envio da mensagem referente ao papel do Transmissor ou Receptor, conforme Role, a ser preenchido a partir do Certificado. 
+          description: Organização de envio da mensagem referente ao papel do Transmissor ou Receptor, conforme Role, a ser preenchido a partir do Certificado. A ser enviado vazio caso o reporte seja da mesma instituição que obteve o token para uso da PCM e, caso contrário, deve ser preenchido com o organisationId da instituição filha para o qual a instituição mãe está fazendo o reporte.
           type: string
           format: uuid
           maxLength: 36
